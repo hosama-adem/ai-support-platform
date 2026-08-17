@@ -23,19 +23,25 @@ A production-ready platform for developer support and ticketing, powered by AI.
 ### Local Development
 
 1. Clone the repository
-2. Start the infrastructure:
+2. Copy environment example:
+   ```bash
+   cp .env.example .env
+   ```
+   (Modify .env as needed for your local setup)
+
+3. Start the infrastructure:
    ```bash
    docker-compose up -d
    ```
-3. Install frontend dependencies:
+4. Install frontend dependencies:
    ```bash
    cd frontend && npm install
    ```
-4. Start the frontend development server:
+5. Start the frontend development server:
    ```bash
    npm run dev
    ```
-5. The backend is already running via Docker Compose on port 8080.
+6. The backend is already running via Docker Compose on port 8080.
 
 ### Available Services
 
@@ -43,6 +49,47 @@ A production-ready platform for developer support and ticketing, powered by AI.
 - Frontend: http://localhost:3000
 - PostgreSQL: localhost:5432
 - Redis: localhost:6379
+
+### Verifying Services
+
+To verify that all services are running correctly:
+
+1. Check Docker containers:
+   ```bash
+   docker-compose ps
+   ```
+
+2. Check backend health endpoint:
+   ```bash
+   curl http://localhost:8080/ping
+   ```
+   Should return: `{"message":"pong"}`
+
+3. Check PostgreSQL connection:
+   ```bash
+   docker-compose exec postgres pg_isready -U postgres
+   ```
+
+4. Check Redis connection:
+   ```bash
+   docker-compose exec redis redis-cli ping
+   ```
+   Should return: `PONG`
+
+### Development Workflow
+
+- Backend code changes: Rebuild and restart the backend service
+  ```bash
+  docker-compose up --build backend
+  ```
+
+- Frontend code changes: The development server will auto-reload
+
+- Database migrations: (To be implemented)
+  ```bash
+  # Example format when migrations are added
+  # docker-compose run --rm backend migrate up
+  ```
 
 ## Project Structure
 
